@@ -1,0 +1,59 @@
+# Dolphin-AntiDetect Detection Rules Configuration
+# Rules для определения ботов и детекций
+
+detector:
+  # Threshold thresholds
+  detection_threshold: 50
+  warning_threshold: 30
+  
+  # Pattern weights
+  pattern_weights:
+    webdriver: 40
+    plugins: 20
+    canvas: 30
+    webgl: 25
+    audio: 20
+    fonts: 15
+    timezone: 10
+    languages: 15
+    hardware: 10
+    navigator_props: 25
+    
+  # Detection strategies
+  strategies:
+    canvas_noise:
+      enabled: true
+      tolerance: 0.01
+      noise_factor: 0.05
+      
+    webgl_vendor:
+      enabled: true
+      allowed_vendors:
+        - "NVIDIA Corporation"
+        - "Intel Corporation"
+        - "AMD"
+        
+    audio_context:
+      enabled: true
+      normalize: true
+      
+    fingerprint_analyzers:
+      - canvas
+      - webgl
+      - audio
+      - fonts
+      - media_decoders
+      
+    stealth_scripts:
+      enabled: true
+      check_all: true
+    
+  # Timing checks
+  timing:
+    min_load_time: 100
+    max_load_time: 60000
+    
+  # Session management
+  session:
+    max_requests: 1000
+    cooldown_time: 300  # seconds

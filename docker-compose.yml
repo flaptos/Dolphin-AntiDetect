@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  dolphin-antidetect:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dolphin-browser
+    volumes:
+      - ./profiles:/app/profiles:rw
+      - ./config:/app/config:rw
+      - ./logs:/app/logs:rw
+    environment:
+      - DISPLAY=:99
+      - CHROME_FORCE_SANDBOX=false
+    networks:
+      - dolphin-network
+    restart: unless-stopped
+
+  selenium-standalone:
+    image: selenium/standalone-chrome:latest
+    container_name: selenium-grid
+    volumes:
+      - /dev/shm:/dev/shm
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    networks:
+      - dolphin-network
+    environment:
+      - SE_NODE_SESSION_TIMEOUT=300
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:7
+    container_name: dolphin-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    networks:
+      - dolphin-network
+    restart: unless-stopped
+
+volumes:
+  mongodb-data:
+
+networks:
+  dolphin-network:
+    driver: bridge

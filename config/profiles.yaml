@@ -1,0 +1,11 @@
+# Dolphin-AntiDetect Profiles Configuration
+# This file stores all browser profiles in YAML format
+
+profiles:
+  # Пример профиля - будет создан автоматически при первом использовании
+  # auto-generated profile:
+  #   name: "default"
+  #   os: "windows"
+  #   browser: "chrome"
+  #   viewport: [1920, 1080]
+  #   ...
